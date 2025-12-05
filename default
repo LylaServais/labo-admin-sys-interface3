@@ -1,0 +1,38 @@
+##
+# Configuration Nginx pour la redirection HTTP vers HTTPS (Port 80)
+##
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    server_name admin-sys-lab.local;
+    return 301 https://$host$request_uri;
+}
+
+##
+# Configuration Nginx pour le HTTPS avec SSL (Port 443)
+##
+server {
+    # Écoute sur le port sécurisé (443) et active le SSL
+    listen 443 ssl default_server;
+    listen [::]:443 ssl default_server;
+
+    # Chemin racine pour servir le code
+    root /var/www/html;
+    index index.html index.htm;
+
+    server_name admin-sys-lab.local;
+
+    # Chemin vers les certificats que vous avez créés
+    ssl_certificate /etc/nginx/ssl/server.crt;
+    ssl_certificate_key /etc/nginx/ssl/server.key;
+
+    # Autres paramètres SSL recommandés pour la sécurité
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers 'ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384';
+    ssl_prefer_server_ciphers on;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
