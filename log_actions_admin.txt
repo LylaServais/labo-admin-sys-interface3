@@ -1,0 +1,3 @@
+## Administration et Sécurisation - 2025-12-05
+- Installation du serveur SSH et des Additions Invité (Résolution des problèmes de connexion et de collage)
+- Configuration et activation du Firewall UFW (Règles SSH, HTTP, HTTPS)
